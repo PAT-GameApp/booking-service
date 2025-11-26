@@ -18,7 +18,7 @@ import com.cognizant.BookingService.exception.ResourceNotFoundException;
 import com.cognizant.BookingService.feign.GameCatalogFeignClient;
 import com.cognizant.BookingService.feign.InventoryServiceFeign;
 import com.cognizant.BookingService.feign.UserServiceFeignClient;
-import com.cognizant.inventory_service.dto.AllotmentDTO;
+import com.cognizant.BookingService.dto.AllotmentDTO;
 
 @RestController
 @RequestMapping("/bookings")
@@ -71,7 +71,7 @@ public class BookingServiceController {
             throw new ResourceNotFoundException("Booking not found with id " + id);
         }
         return booking;
-               
+
     }
 
     @DeleteMapping("/delete_booking/{id}")

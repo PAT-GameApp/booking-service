@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import com.cognizant.BookingService.entity.UserServiceEntity;
 
-@FeignClient(name = "user-service", url = "http://localhost:8080")
+@FeignClient(name = "user-service")
 public interface UserServiceFeignClient {
     @GetMapping("/users/{id}")
     UserServiceEntity getUserById(@PathVariable("id") Long id);

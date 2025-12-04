@@ -34,7 +34,7 @@ public class BookingServiceController {
     @Autowired
     private InventoryServiceFeign inventoryServiceFeign;
 
-    @PostMapping("/create_booking")
+    @PostMapping
     public String createBooking(@RequestBody BookingServiceEntity booking) {
         if (booking.getUserId() == null) {
             throw new IllegalArgumentException("userId must not be null");
@@ -59,12 +59,12 @@ public class BookingServiceController {
         return "Booking created";
     }
 
-    @GetMapping("/get_all_booking")
+    @GetMapping
     public List<BookingServiceEntity> getAllBookings() {
         return bookingService.getAllBookings();
     }
 
-    @GetMapping("/get_booking_by_id/{id}")
+    @GetMapping("/{id}")
     public BookingServiceEntity getBookingById(@PathVariable Long id) {
         BookingServiceEntity booking = bookingService.getBookingById(id);
         if (booking == null) {
@@ -74,7 +74,7 @@ public class BookingServiceController {
 
     }
 
-    @DeleteMapping("/delete_booking/{id}")
+    @DeleteMapping("/{id}")
     public String deleteBooking(@PathVariable Long id) {
         bookingService.deleteBooking(id);
         return "Booking cancelled";

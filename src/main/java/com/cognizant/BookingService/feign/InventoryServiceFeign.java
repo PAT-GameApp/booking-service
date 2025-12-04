@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import com.cognizant.BookingService.dto.AllotmentDTO;
 
-@FeignClient(name = "inventory-service", url = "http://localhost:8083")
+@FeignClient(name = "inventory-service")
 public interface InventoryServiceFeign {
-    @GetMapping("/api/allotments/{id}")
+    @GetMapping("/allotments/{id}")
     AllotmentDTO getAllotmentById(@PathVariable("id") int id);
 }

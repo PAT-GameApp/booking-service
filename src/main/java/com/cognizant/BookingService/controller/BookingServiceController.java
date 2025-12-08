@@ -34,7 +34,7 @@ public class BookingServiceController {
     @Autowired
     private InventoryServiceFeign inventoryServiceFeign;
 
-    @PostMapping
+    @PostMapping("/")
     public String createBooking(@RequestBody BookingServiceEntity booking) {
         if (booking.getUserId() == null) {
             throw new IllegalArgumentException("userId must not be null");
@@ -48,18 +48,20 @@ public class BookingServiceController {
         if (gameCatalogFeignClient.getGameById(booking.getGameId()) == null) {
             throw new ResourceNotFoundException("Game not found with id " + booking.getGameId());
         }
-        if (booking.getAllotmentId() == null) {
-            throw new IllegalArgumentException("allotmentId must not be empty");
-        }
-        AllotmentDTO allotment = inventoryServiceFeign.getAllotmentById(booking.getAllotmentId().intValue());
-        if (allotment == null) {
-            throw new ResourceNotFoundException("Allotment not found with id " + booking.getAllotmentId());
-        }
+        // if (booking.getAllotmentId() == null) {
+        // throw new IllegalArgumentException("allotmentId must not be empty");
+        // }
+        // AllotmentDTO allotment =
+        // inventoryServiceFeign.getAllotmentById(booking.getAllotmentId().intValue());
+        // if (allotment == null) {
+        // throw new ResourceNotFoundException("Allotment not found with id " +
+        // booking.getAllotmentId());
+        // }
         bookingService.createBooking(booking);
         return "Booking created";
     }
 
-    @GetMapping
+    @GetMapping("/")
     public List<BookingServiceEntity> getAllBookings() {
         return bookingService.getAllBookings();
     }

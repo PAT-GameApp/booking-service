@@ -19,6 +19,7 @@ import com.cognizant.BookingService.feign.GameCatalogFeignClient;
 import com.cognizant.BookingService.feign.InventoryServiceFeign;
 import com.cognizant.BookingService.feign.UserServiceFeignClient;
 import com.cognizant.BookingService.dto.AllotmentDTO;
+import com.cognizant.BookingService.dto.BookingCreateRequestDTO;
 
 @RestController
 @RequestMapping("/bookings")
@@ -27,37 +28,9 @@ public class BookingServiceController {
     @Autowired
     private BookingService bookingService;
 
-    @Autowired
-    private UserServiceFeignClient userServiceFeignClient;
-    @Autowired
-    private GameCatalogFeignClient gameCatalogFeignClient;
-    @Autowired
-    private InventoryServiceFeign inventoryServiceFeign;
-
     @PostMapping("/")
-    public String createBooking(@RequestBody Booking booking) {
-        if (booking.getUserId() == null) {
-            throw new IllegalArgumentException("userId must not be null");
-        }
-        if (userServiceFeignClient.getUserById(booking.getUserId()) == null) {
-            throw new ResourceNotFoundException("User not found with id " + booking.getUserId());
-        }
-        if (booking.getGameId() == null) {
-            throw new IllegalArgumentException("gameId must not be empty");
-        }
-        if (gameCatalogFeignClient.getGameById(booking.getGameId()) == null) {
-            throw new ResourceNotFoundException("Game not found with id " + booking.getGameId());
-        }
-        // if (booking.getAllotmentId() == null) {
-        // throw new IllegalArgumentException("allotmentId must not be empty");
-        // }
-        // AllotmentDTO allotment =
-        // inventoryServiceFeign.getAllotmentById(booking.getAllotmentId().intValue());
-        // if (allotment == null) {
-        // throw new ResourceNotFoundException("Allotment not found with id " +
-        // booking.getAllotmentId());
-        // }
-        bookingService.createBooking(booking);
+    public String createBooking(@RequestBody BookingCreateRequestDTO request) {
+        bookingService.createBooking(request);
         return "Booking created";
     }
 

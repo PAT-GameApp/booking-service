@@ -6,12 +6,15 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
@@ -31,7 +34,11 @@ public class Booking {
     @NotNull
     private Long gameId; // ref to game
 
-    private List<Long> playerIds; // list of player ids
+    // store playerIDs in seperate join table
+    @ElementCollection
+    @CollectionTable(name = "booking_players", joinColumns = @JoinColumn(name = "booking_id"))
+    @Column(name = "player_id")
+    private List<Long> playerIds;
 
     private Long allotmentId; // ref after allotment
 

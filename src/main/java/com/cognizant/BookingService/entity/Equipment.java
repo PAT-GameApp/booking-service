@@ -1,11 +1,15 @@
 package com.cognizant.BookingService.entity;
 
-import jakarta.persistence.*;
-import lombok.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Table(name = "equipment")
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -14,37 +18,18 @@ import java.util.List;
 @ToString(exclude = "allotments") // Prevent circular reference
 public class Equipment {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "equipment_id")
-    private Long equipment_id;
+    private Long equipmentId;
 
-    @Column(name = "equipment_name", nullable = false)
-    private String equipment_name;
+    private String equipmentName;
 
-    @Column(name = "equipment_quantity", nullable = false)
-    private int equipment_quantity;
+    private int equipmentQuantity;
 
-    @Column(name = "game_id", nullable = false)
-    private Long game_id; // Reference to external Game Catalog Service
+    private Long gameId; // Reference to external Game Catalog Service
 
-    @Column(name = "created_at", nullable = false, updatable = false)
-    private LocalDateTime created_at;
+    private LocalDateTime createdAt;
 
-    @Column(name = "modified_at", nullable = false)
-    private LocalDateTime modified_at;
+    private LocalDateTime modifiedAt;
 
-    @OneToMany(mappedBy = "equipment", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Allotment> allotments;
 
-    @PrePersist
-    protected void onCreate() {
-        this.created_at = LocalDateTime.now();
-        this.modified_at = LocalDateTime.now();
-    }
-
-    @PreUpdate
-    protected void onUpdate() {
-        this.modified_at = LocalDateTime.now();
-    }
 }

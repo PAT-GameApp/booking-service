@@ -16,24 +16,14 @@ import jakarta.persistence.Table;
 import lombok.Data;
 
 @Data
-
 public class UserServiceEntity {
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long user_id;
-	private String user_name;
-	private String email;
-	private String phone_number;
-	private String role;
-	private String department;
-	private String office_location;
-	@CreatedDate
-	@Column(name = "created_at", updatable = false)
-	private LocalDateTime created_at;
-
-	@LastModifiedDate
-	@Column(name = "modified_at")
-	private LocalDateTime modified_at;
-
+    private Long userId;
+    private String userName;
+    private String email;
+    private String phoneNumber;
+    private String role;
+    private String department;
+    private String officeLocation;
+    private LocalDateTime createdAt;
+    private LocalDateTime modifiedAt;
 }

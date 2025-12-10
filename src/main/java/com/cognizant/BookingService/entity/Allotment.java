@@ -1,10 +1,13 @@
 package com.cognizant.BookingService.entity;
 
-import jakarta.persistence.*;
-import lombok.*;
 import java.time.LocalDateTime;
 
-import com.cognizant.BookingService.entity.Equipment;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
@@ -14,31 +17,16 @@ import com.cognizant.BookingService.entity.Equipment;
 @ToString(exclude = "equipment") // Prevent circular reference
 public class Allotment {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int allotment_id;
+    private Long allotmentId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "equipment_id", nullable = false)
     private Equipment equipment;
 
-    @Column(nullable = false)
-    private int user_id;
+    private boolean returned;
 
-    @Column(nullable = false)
-    private LocalDateTime created_at = LocalDateTime.now();
+    private int userId;
 
-    @Column(nullable = false)
-    private LocalDateTime modified_at = LocalDateTime.now();
+    private LocalDateTime createdAt = LocalDateTime.now();
 
-    @PrePersist
-    protected void onCreate() {
-        this.created_at = LocalDateTime.now();
-        this.modified_at = LocalDateTime.now();
-    }
+    private LocalDateTime modifiedAt = LocalDateTime.now();
 
-    @PreUpdate
-    protected void onUpdate() {
-        this.modified_at = LocalDateTime.now();
-    }
 }

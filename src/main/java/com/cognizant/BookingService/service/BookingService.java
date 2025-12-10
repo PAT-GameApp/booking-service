@@ -1,4 +1,4 @@
-package com.cognizant.BookingService.Service;
+package com.cognizant.BookingService.service;
 
 import java.util.List;
 import java.util.Optional;
@@ -6,33 +6,28 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.cognizant.BookingService.entity.BookingServiceEntity;
+import com.cognizant.BookingService.entity.Booking;
 import com.cognizant.BookingService.repository.BookingServiceRepository;
 
 @Service
-public class BookingServiceImpl implements BookingService {
-
+public class BookingService {
     @Autowired
     private BookingServiceRepository bookingServiceRepository;
 
-    @Override
-    public BookingServiceEntity createBooking(BookingServiceEntity booking) {
-    	
+    public Booking createBooking(Booking booking) {
+
         return bookingServiceRepository.save(booking);
     }
 
-    @Override
-    public List<BookingServiceEntity> getAllBookings() {
+    public List<Booking> getAllBookings() {
         return bookingServiceRepository.findAll();
     }
 
-    @Override
-    public BookingServiceEntity getBookingById(Long id) {
-        Optional<BookingServiceEntity> booking = bookingServiceRepository.findById(id);
+    public Booking getBookingById(Long id) {
+        Optional<Booking> booking = bookingServiceRepository.findById(id);
         return booking.orElse(null);
     }
 
-    @Override
     public void deleteBooking(Long id) {
         bookingServiceRepository.deleteById(id);
     }

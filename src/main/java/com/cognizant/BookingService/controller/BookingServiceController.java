@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.cognizant.BookingService.Service.BookingService;
-import com.cognizant.BookingService.entity.BookingServiceEntity;
+import com.cognizant.BookingService.service.BookingService;
+import com.cognizant.BookingService.entity.Booking;
 import com.cognizant.BookingService.exception.ResourceNotFoundException;
 import com.cognizant.BookingService.feign.GameCatalogFeignClient;
 import com.cognizant.BookingService.feign.InventoryServiceFeign;
@@ -35,7 +35,7 @@ public class BookingServiceController {
     private InventoryServiceFeign inventoryServiceFeign;
 
     @PostMapping("/")
-    public String createBooking(@RequestBody BookingServiceEntity booking) {
+    public String createBooking(@RequestBody Booking booking) {
         if (booking.getUserId() == null) {
             throw new IllegalArgumentException("userId must not be null");
         }
@@ -62,13 +62,13 @@ public class BookingServiceController {
     }
 
     @GetMapping("/")
-    public List<BookingServiceEntity> getAllBookings() {
+    public List<Booking> getAllBookings() {
         return bookingService.getAllBookings();
     }
 
     @GetMapping("/{id}")
-    public BookingServiceEntity getBookingById(@PathVariable Long id) {
-        BookingServiceEntity booking = bookingService.getBookingById(id);
+    public Booking getBookingById(@PathVariable Long id) {
+        Booking booking = bookingService.getBookingById(id);
         if (booking == null) {
             throw new ResourceNotFoundException("Booking not found with id " + id);
         }

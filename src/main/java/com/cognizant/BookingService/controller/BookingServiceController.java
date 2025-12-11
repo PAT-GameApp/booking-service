@@ -3,6 +3,7 @@ package com.cognizant.BookingService.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,12 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cognizant.BookingService.service.BookingService;
+
 import com.cognizant.BookingService.entity.Booking;
 import com.cognizant.BookingService.exception.ResourceNotFoundException;
-import com.cognizant.BookingService.feign.GameCatalogFeignClient;
-import com.cognizant.BookingService.feign.InventoryServiceFeign;
-import com.cognizant.BookingService.feign.UserServiceFeignClient;
-import com.cognizant.BookingService.dto.AllotmentDTO;
 import com.cognizant.BookingService.dto.BookingCreateRequestDTO;
 
 @RestController
@@ -53,6 +51,12 @@ public class BookingServiceController {
     public String deleteBooking(@PathVariable Long id) {
         bookingService.deleteBooking(id);
         return "Booking cancelled";
+    }
+
+    @PostMapping("/{id}/allot/")
+    public ResponseEntity<Booking> allotBooking(@PathVariable Long id) {
+        Booking booking = bookingService.allotBooking(id);
+        return ResponseEntity.ok(booking);
     }
 
     @ExceptionHandler(IllegalArgumentException.class)

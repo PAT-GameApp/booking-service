@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import com.cognizant.BookingService.entity.Booking;
 
-import feign.Param;
+import org.springframework.data.repository.query.Param;
 
 public interface BookingServiceRepository extends JpaRepository<Booking, Long> {
         // find if the players exist in any booking made today
@@ -27,9 +27,9 @@ public interface BookingServiceRepository extends JpaRepository<Booking, Long> {
         // find if slot is available
         @Query("""
                         SELECT COUNT(b) > 0
-                        FROM Booking
-                        b WHERE b.bookingStartTime<:
-                        endTime AND b.bookingEndTime>:startTime
+                        FROM Booking b
+                        WHERE b.bookingStartTime < :endTime
+                        AND b.bookingEndTime > :startTime
                         """)
         boolean slotAvailable(@Param("startTime") LocalDateTime startTime,
                         @Param("endTime") LocalDateTime endTime);

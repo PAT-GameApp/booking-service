@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import com.cognizant.BookingService.dto.AllotmentDTO;
 import com.cognizant.BookingService.dto.EquipmentAvailableResponseDTO;
 
-@FeignClient(name = "inventory-service")
+@FeignClient(name = "inventory-service", url = "http://localhost:8083")
 public interface InventoryServiceFeign {
     @GetMapping("/allotments/{id}")
     AllotmentDTO getAllotmentById(@PathVariable("id") int id);

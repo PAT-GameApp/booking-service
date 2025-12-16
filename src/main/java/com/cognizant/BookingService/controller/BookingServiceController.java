@@ -53,7 +53,7 @@ public class BookingServiceController {
         return "Booking cancelled";
     }
 
-    @PostMapping("/{id}/allot/")
+    @PostMapping("/{id}/allot")
     public ResponseEntity<Booking> allotBooking(@PathVariable Long id) {
         Booking booking = bookingService.allotBooking(id);
         return ResponseEntity.ok(booking);

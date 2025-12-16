@@ -43,16 +43,16 @@ public class BookingService {
                 throw new InvalidPlayersException("Please Enter Valid Player IDs");
             }
         }
-        if (Duration.between(request.getBookingStartTime(), request.getBookingEndTime()).toHours() > 1) {
+        if (Duration.between(request.getBookingStartTime(), request.getBookingEndTime()).toMinutes() > 60) {
             throw new InvalidDurationException("Cannot book for more than one hour");
         }
         if (Duration.between(request.getBookingStartTime(), request.getBookingEndTime()).toHours() < 0) {
             throw new InvalidDurationException("End time must be after start time");
         }
         // find if any player already booked today
-        LocalDate today = LocalDate.now();
-        LocalDateTime startOfDay = today.atStartOfDay();
-        LocalDateTime endOfDay = today.plusDays(1).atStartOfDay();
+        LocalDate bookingDate = request.getBookingStartTime().toLocalDate();
+        LocalDateTime startOfDay = bookingDate.atStartOfDay();
+        LocalDateTime endOfDay = bookingDate.plusDays(1).atStartOfDay();
         if (bookingRepository.existsAnyBookingTodayByPlayers(request.getPlayerIds(), startOfDay, endOfDay)) {
             throw new InvalidPlayersException("One player can only play one game a day");
         }

@@ -16,8 +16,8 @@ public interface BookingServiceRepository extends JpaRepository<Booking, Long> {
                         SELECT COUNT(b) > 0
                         FROM Booking b JOIN b.playerIds p
                         WHERE p IN :players
-                        AND b.createdAt >= :startOfDay
-                        AND b.createdAt < :endOfDay
+                        AND b.bookingStartTime >= :startOfDay
+                        AND b.bookingStartTime < :endOfDay
                         """)
         boolean existsAnyBookingTodayByPlayers(
                         @Param("players") List<Long> players,

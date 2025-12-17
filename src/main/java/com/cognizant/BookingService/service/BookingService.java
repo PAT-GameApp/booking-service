@@ -19,6 +19,7 @@ import com.cognizant.BookingService.exception.InvalidPlayersException;
 import com.cognizant.BookingService.feign.GameCatalogFeignClient;
 import com.cognizant.BookingService.feign.InventoryServiceFeign;
 import com.cognizant.BookingService.feign.UserServiceFeignClient;
+import com.cognizant.BookingService.kafka.producer.BookingEventProducer;
 import com.cognizant.BookingService.repository.BookingServiceRepository;
 
 import feign.FeignException;
@@ -33,6 +34,8 @@ public class BookingService {
     // private GameCatalogFeignClient gameCatalogFeignClient;
     @Autowired
     private InventoryServiceFeign inventoryServiceFeign;
+    @Autowired
+    private BookingEventProducer bookingEventProducer;
 
     public Booking createBooking(BookingCreateRequestDTO request) {
         // check if all playerIds are valid
@@ -97,7 +100,12 @@ public class BookingService {
 
         // TODO - save booking first and then check if it can be auto allocated
 
-        return bookingRepository.save(booking);
+        Booking savedBooking = bookingRepository.save(booking);
+        
+        // Publish event to Kafka for query side sync
+        bookingEventProducer.sendBookingCreatedEvent(savedBooking);
+        
+        return savedBooking;
     }
 
     public List<Booking> getAllBookings() {
@@ -110,6 +118,8 @@ public class BookingService {
     }
 
     public void deleteBooking(Long id) {
+        // Publish delete event to Kafka before deleting
+        bookingEventProducer.sendBookingDeletedEvent(id);
         bookingRepository.deleteById(id);
     }
 
@@ -124,7 +134,12 @@ public class BookingService {
         AllotmentDTO allotmentResponse = inventoryServiceFeign.createAllotment(allotmentRequest);
         booking.setAllotmentId(allotmentResponse.getAllotmentId());
 
-        return bookingRepository.save(booking);
+        Booking savedBooking = bookingRepository.save(booking);
+        
+        // Publish allotment event to Kafka
+        bookingEventProducer.sendBookingAllottedEvent(savedBooking);
+        
+        return savedBooking;
     }
 
 }

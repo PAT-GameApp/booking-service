@@ -7,6 +7,9 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.cognizant.BookingService.dto.AllotmentDTO;
@@ -110,6 +113,14 @@ public class BookingService {
 
     public List<Booking> getAllBookings() {
         return bookingRepository.findAll();
+    }
+
+    public Page<Booking> getAllBookings(Pageable pageable) {
+        return bookingRepository.findAll(pageable);
+    }
+
+    public List<Booking> getAllBookings(Sort sort) {
+        return sort == null || sort.isUnsorted() ? bookingRepository.findAll() : bookingRepository.findAll(sort);
     }
 
     public Booking getBookingById(Long id) {

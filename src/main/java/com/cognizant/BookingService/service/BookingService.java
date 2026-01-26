@@ -123,6 +123,10 @@ public class BookingService {
         return sort == null || sort.isUnsorted() ? bookingRepository.findAll() : bookingRepository.findAll(sort);
     }
 
+    public List<Booking> getBookingsByUserId(Long userId) {
+        return bookingRepository.findByUserId(userId);
+    }
+
     public Booking getBookingById(Long id) {
         Optional<Booking> booking = bookingRepository.findById(id);
         return booking.orElse(null);

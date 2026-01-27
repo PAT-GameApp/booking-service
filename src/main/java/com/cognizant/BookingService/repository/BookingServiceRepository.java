@@ -34,4 +34,6 @@ public interface BookingServiceRepository extends JpaRepository<Booking, Long> {
         boolean slotAvailable(@Param("startTime") LocalDateTime startTime,
                         @Param("endTime") LocalDateTime endTime);
 
+        List<Booking> findByUserId(Long userId);
+
 }

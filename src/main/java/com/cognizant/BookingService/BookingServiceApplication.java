@@ -8,16 +8,13 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 @SpringBootApplication
-
 @EnableDiscoveryClient
-
 @EnableFeignClients(basePackages = "com.cognizant.BookingService.feign")
-
 @ComponentScan(basePackages = {
     "com.cognizant.BookingService",
     "com.cognizant.userService"
 })
-
+@EnableJpaAuditing
 public class BookingServiceApplication {
 
 	public static void main(String[] args) {
